@@ -23,6 +23,7 @@ type ServiceIconsProps = {
 
 export const ServiceIcons: FC<ServiceIconsProps> = ({ service, ...props }) =>
   match(service)
+    .with('dify', () => <IconBrandOpenai {...props} />)
     .with('discord', () => <IconBrandDiscordFilled {...props} />)
     .with('twitter', () => <IconBrandTwitterFilled {...props} />)
     .with('instagram', () => <IconBrandFacebook {...props} />)

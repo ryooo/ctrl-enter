@@ -1,8 +1,8 @@
 {
-  "name": "ctrl-enter",
-  "displayName": "ctrl-enter",
+  "name": "dify-ctrl-enter",
+  "displayName": "dify-ctrl-enter",
   "version": "0.1.0",
-  "description": "'Enter'で送信するWebサイトを'Ctrl + Enter'に矯正するブラウザ拡張機能",
+  "description": "Difyのチャットウィンドウで、'Enter'で送信せず'Ctrl + Enter'で送信するように矯正するブラウザ拡張機能",
   "author": "mst-mkt",
   "scripts": {
     "dev": "plasmo dev",

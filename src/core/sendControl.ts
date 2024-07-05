@@ -2,14 +2,14 @@ import type { Services } from '~/types/serviceType'
 import { createKeydownEvent } from '~/utils/createKeydownEvent'
 import { getEventKey } from '~/utils/getEventKey'
 
-type SendActions = Record<Services, (e: KeyboardEvent) => void>
+type SendActions = Record<Services, (e: KeyboardEvent, composing: boolean) => void>
 
 export const sendController: SendActions = {
-  discord: (e) => {
+  discord: (e, _) => {
     const key = getEventKey(e)
     if (key === 'enter') e.stopPropagation()
   },
-  twitter: (e) => {
+  twitter: (e, _) => {
     const key = getEventKey(e)
     if (key === 'enter') {
       // dispatch shift-enter because the cursor shifts when enter is used
@@ -29,13 +29,42 @@ export const sendController: SendActions = {
       sendButton.click()
     }
   },
-  instagram: (e) => {
+  instagram: (e, _) => {
     const key = getEventKey(e)
     if (key === 'enter') e.stopPropagation()
   },
-  chatgpt: (e) => {
+  chatgpt: (e, _) => {
     const key = getEventKey(e)
     if (key === 'enter') e.stopPropagation()
+
+    const textBox = e.currentTarget as HTMLTextAreaElement
+    const sendButton = textBox.parentElement?.parentElement?.lastElementChild as HTMLButtonElement
+    if (key === 'ctrl-enter') sendButton?.click()
+  },
+  dify: (e, composing) => {
+    const key = getEventKey(e)
+    if (key === 'enter') {
+      e.preventDefault()
+      e.stopPropagation()
+      e.stopImmediatePropagation()
+
+      if (!composing) {
+        const text = '\n'
+        const textarea = e.target as HTMLTextAreaElement
+        const startPos = textarea.selectionStart
+        const endPos = textarea.selectionEnd
+        const scrollTop = textarea.scrollTop
+
+        textarea.value =
+          textarea.value.substring(0, startPos) +
+          text +
+          textarea.value.substring(endPos, textarea.value.length)
+        textarea.focus()
+        textarea.selectionStart = startPos + text.length
+        textarea.selectionEnd = startPos + text.length
+        textarea.scrollTop = scrollTop
+      }
+    }
 
     const textBox = e.currentTarget as HTMLTextAreaElement
     const sendButton = textBox.parentElement?.parentElement?.lastElementChild as HTMLButtonElement

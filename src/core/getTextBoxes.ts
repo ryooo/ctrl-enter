@@ -17,4 +17,5 @@ export const getTriggeredTextBoxes = (service: Services): HTMLElement[] =>
     )
     .with('instagram', () => querySelectorArray<HTMLDivElement>('div[role="textbox"]'))
     .with('chatgpt', () => querySelectorArray<HTMLDivElement>('textarea#prompt-textarea'))
+    .with('dify', () => querySelectorArray<HTMLDivElement>('textarea.rc-textarea'))
     .otherwise(() => [])
